@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AQUASIGHT™ RO</title>
+</head>
+<body>
+
+<h2>AQUASIGHT™ RO Diagnostic</h2>
+
+Feed Flow: <input id="feed_flow"><br>
+Permeate Flow: <input id="perm_flow"><br>
+Feed TDS: <input id="feed_tds"><br>
+Permeate TDS: <input id="perm_tds"><br>
+Energy (kWh/day): <input id="energy"><br>
+Antiscalant: <input id="antiscalant"><br>
+
+<button onclick="calc()">Analyze</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calc(){
+    fetch("/calculate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            feed_flow: feed_flow.value,
+            perm_flow: perm_flow.value,
+            feed_tds: feed_tds.value,
+            perm_tds: perm_tds.value,
+            energy: energy.value,
+            antiscalant: antiscalant.value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerHTML =
+        "Recovery: " + data.recovery + "%<br>" +
+        "Rejection: " + data.rejection + "%<br>" +
+        "SEC: " + data.sec;
+    });
+}
+</script>
+
+</body>
+</html>
