@@ -53,4 +53,4 @@ def calculate():
         "estimated_savings": round(total_savings,2)
     })
 
-app.run(debug=True)
+app.run(host="0.0.0.0", port=8080)
